@@ -16,10 +16,42 @@ const ele = (
 // }
 
 class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {num: 0};
+    }
+
+    componentWillMount() {
+        console.log('comp will mount');
+    }
+
+    componentWillReceiveProps() {
+        console.log(props);
+    }
+
+    componentWillUpdate() {
+        console.log('will update');
+    }
+
+    componentDidUpdate() {
+        console.log('did update');
+    }
+
+    componentDidMount() {
+        console.log('comp did mount');
+    }
+
+    handleClick() {
+        this.setState({
+            num: this.state.num + 1
+        });
+    }
+
     render() {
         return (
             <div className="active" title="123">
-                Hello, <span>React</span>
+                <div>Hello, <span>React {this.state.num}</span></div> 
+                <button onClick={this.handleClick.bind(this)}>Add+1</button>
             </div>
         );
     }

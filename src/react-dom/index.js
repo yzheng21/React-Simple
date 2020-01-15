@@ -12,6 +12,8 @@ function render(vnode, container) {
 function _render(vnode) {
     const {tag, attrs, children} = vnode;
     if (vnode === undefined || vnode === null || typeof vnode === 'boolean') return;
+    if (typeof vnode === 'number') vnode = String(vnode);
+    
     if (typeof vnode === 'string') {
         return document.createTextNode(vnode);
     }
@@ -34,7 +36,7 @@ function _render(vnode) {
         });
     }
     // recursive render child node
-    children.forEach(child => render(child, dom));
+    if (children) children.forEach(child => render(child, dom));
     return dom;
 }
 
@@ -55,14 +57,32 @@ function createComponent(comp, props) {
 }
 
 function setComponentProps(comp, props) {
+    if (!comp.base) {
+        if (comp.componentWillMount) comp.componentWillMount();
+    } else if (comp.componentWillReceiveProps) {
+        comp.componentWillReceiveProps();
+    }
     comp.props = props;
     renderComponent(comp);
 }
 
-function renderComponent(comp) {
+export function renderComponent(comp) {
     let base;
     const renderer = comp.render();
     base = _render(renderer);
+    if (comp.base && comp.componentWillUpdate) {
+        comp.componentWillUpdate();
+    }
+    if (comp.base) {
+        if (comp.componentDidUpdate) comp.componentDidUpdate();
+    } else if (comp.componentDidMount) {
+        comp.componentDidMount();
+    }
+
+    // replace node
+    if (comp.base && comp.base.parentNode) {
+        comp.base.parentNode.replaceChild(base, comp.base);
+    }
     comp.base = base;
 }
 

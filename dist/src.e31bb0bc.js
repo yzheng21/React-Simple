@@ -117,14 +117,135 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"index.js":[function(require,module,exports) {
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// const App = () => {
-//     return <div>App</div>
-// }
-// ReactDOM.render(<App />, document.getElementById('root'));
-},{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+})({"react/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var React = {
+  createElement: createElement
+};
+
+function createElement(tag, attrs) {
+  for (var _len = arguments.length, children = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+    children[_key - 2] = arguments[_key];
+  }
+
+  return {
+    tag: tag,
+    attrs: attrs,
+    children: children
+  };
+}
+
+var _default = React;
+exports.default = _default;
+},{}],"react-dom/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var ReactDOM = {
+  render: render
+};
+
+function render(vnode, container) {
+  console.log(vnode);
+  var tag = vnode.tag,
+      attrs = vnode.attrs;
+  if (vnode === undefined) return;
+
+  if (typeof vnode === 'string') {
+    var textNode = document.createTextNode(vnode);
+    return container.appendChild(textNode);
+  }
+
+  var dom = document.createElement(tag);
+
+  if (attrs) {
+    Object.keys(attrs).forEach(function (key) {
+      var value = attrs[key];
+      setAttribute(dom, key, value);
+    });
+  } // recursive render child node
+
+
+  vnode.children.forEach(function (child) {
+    return render(child, dom);
+  });
+  return container.appendChild(dom);
+}
+
+function setAttribute(dom, key, value) {
+  if (key === 'className') {
+    key = 'class';
+  }
+
+  if (/on\w+/.test(key)) {
+    // Event
+    key = key.toLowerCase();
+    dom[key] = value || '';
+  } else if (key === 'style') {
+    if (!value || typeof value === 'string') {
+      dom.style.cssText = value || '';
+    } else if (value && _typeof(value) === 'object') {
+      // {width: 20px}
+      for (var k in value) {
+        if (typeof value[k] === 'number') {
+          dom.style[k] = value[k] + 'px';
+        } else {
+          dom.style[k] = value[k];
+        }
+      }
+    }
+  } else {
+    if (key in dom) {
+      dom[key] = value || '';
+    }
+
+    if (value) {
+      dom.setAttribute(key, value);
+    } else {
+      dom.removeAttribute(key);
+    }
+  }
+}
+
+var _default = ReactDOM;
+exports.default = _default;
+},{}],"index.js":[function(require,module,exports) {
+"use strict";
+
+var _react = _interopRequireDefault(require("./react"));
+
+var _reactDom = _interopRequireDefault(require("./react-dom"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ele = _react.default.createElement("div", {
+  className: "active",
+  title: "123"
+}, "Hello, ", _react.default.createElement("span", null, "React"));
+
+_reactDom.default.render(ele, document.querySelector('#root'));
+/*
+
+createElement(tag, attrs, ...children)
+
+var ele = React.creactElement("div", {
+    className: "active",
+    title: "123"
+}, "Hello,", React.createElement("span", null, "React"))
+
+*/
+},{"./react":"react/index.js","./react-dom":"react-dom/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -152,7 +273,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62042" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63788" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

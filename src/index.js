@@ -1,8 +1,21 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
+import React from './react';
+import ReactDOM from './react-dom';
 
-// const App = () => {
-//     return <div>App</div>
-// }
+const ele = (
+    <div className="active" title="123">
+        Hello, <span>React</span>
+    </div>
+)
 
-// ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(ele, document.querySelector('#root'));
+
+/*
+
+createElement(tag, attrs, ...children)
+
+var ele = React.creactElement("div", {
+    className: "active",
+    title: "123"
+}, "Hello,", React.createElement("span", null, "React"))
+
+*/

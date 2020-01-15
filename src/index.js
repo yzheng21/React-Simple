@@ -7,7 +7,25 @@ const ele = (
     </div>
 )
 
-ReactDOM.render(ele, document.querySelector('#root'));
+// function Home() {
+//     return (
+//         <div className="active" title="123">
+//             Hello, <span>React</span>
+//         </div>
+//     )
+// }
+
+class Home extends React.Component {
+    render() {
+        return (
+            <div className="active" title="123">
+                Hello, <span>React</span>
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<Home name="home" />, document.querySelector('#root'));
 
 /*
 

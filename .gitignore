@@ -5,11 +5,11 @@
 /.pnp
 .pnp.js
 
-# # dist
-# /dist
+# dist
+/dist
 
-# # cache
-# /.cache
+# cache
+/.cache
 
 # testing
 /coverage

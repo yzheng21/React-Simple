@@ -1,15 +1,31 @@
+import Component from '../react/component';
+
 const ReactDOM = {
     render
 }
 
 function render(vnode, container) {
-    console.log(vnode);
-    const {tag, attrs} = vnode;
-    if (vnode === undefined) return;
+    // console.log(vnode);
+    return container.appendChild(_render(vnode));
+}
+
+function _render(vnode) {
+    const {tag, attrs, children} = vnode;
+    if (vnode === undefined || vnode === null || typeof vnode === 'boolean') return;
     if (typeof vnode === 'string') {
-        const textNode = document.createTextNode(vnode);
-        return container.appendChild(textNode);
+        return document.createTextNode(vnode);
     }
+
+    // if tag is function, render component
+    if (typeof tag === 'function') {
+        // 1. create componet
+        const comp = createComponent(tag, attrs);
+        // 2. set attrs
+        setComponentProps(comp, attrs);
+        // 3. render node
+        return comp.base;
+    }
+
     const dom = document.createElement(tag);
     if (attrs) {
         Object.keys(attrs).forEach(key => {
@@ -18,8 +34,36 @@ function render(vnode, container) {
         });
     }
     // recursive render child node
-    vnode.children.forEach(child => render(child, dom));
-    return container.appendChild(dom);
+    children.forEach(child => render(child, dom));
+    return dom;
+}
+
+function createComponent(comp, props) {
+    let instance;
+    if (comp.prototype && comp.prototype.render) {
+        // if class based, create instance, return
+        instance = new comp(props);
+    } else {
+        // if function based, extend function comp to class comp
+        instance = new Component(props);
+        instance.constructor = comp;
+        instance.render = function() {
+            return this.constructor()
+        }
+    }
+    return instance;
+}
+
+function setComponentProps(comp, props) {
+    comp.props = props;
+    renderComponent(comp);
+}
+
+function renderComponent(comp) {
+    let base;
+    const renderer = comp.render();
+    base = _render(renderer);
+    comp.base = base;
 }
 
 function setAttribute(dom, key, value) {

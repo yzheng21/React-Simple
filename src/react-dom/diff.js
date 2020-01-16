@@ -86,7 +86,9 @@ function diffChildren(dom, vchildren) {
 
     //seperate the node with key and node without key
     if (domChildren.length > 0) {
-        
+        domChildren.forEach(domChild => {
+            children.push(domChild);
+        });
     }
     if (vchildren && vchildren.length > 0) {
         let min = 0;
@@ -100,6 +102,7 @@ function diffChildren(dom, vchildren) {
                     keyed[key] = undefined;
                 }
             } else if (childrenLen > min) {
+                // if not key, look for the node with same type firstly
                 for (let j = min; j < childrenLen; j++) {
                     let c = children[j];
                     if (c) {
@@ -111,7 +114,6 @@ function diffChildren(dom, vchildren) {
                     }
                 }
             }
-
             // compare
             child = diffNode(child, vchild);
 

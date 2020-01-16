@@ -39,6 +39,14 @@ class Home extends React.Component {
 
     componentDidMount() {
         console.log('comp did mount');
+        for (let i = 0; i < 10; i++) {
+            this.setState((prevState, prevProps) => {
+                console.log(prevState.num);
+                return {
+                    num: prevState.num + 1
+                }
+            });
+        }
     }
 
     handleClick() {

@@ -57,7 +57,7 @@ class Home extends React.Component {
     }
 }
 
-ReactDOM.render(<Home name="home" />, document.querySelector('#root'));
+ReactDOM.render(<Home title="home" />, document.querySelector('#root'));
 
 /*
 
